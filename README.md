@@ -12,4 +12,6 @@ Sous-groupe:
 		-N°3 : Stefan Kunkel / Paul Legrand / Laura Maneschi 
 		=> Créer l'interface numérique pour renvoyer l'exploitation des données
 
+Coordinateur: Pietrequin Marion
+
  
