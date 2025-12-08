@@ -15,7 +15,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 #a= "E:\Info projet 5\inventory_sgi1973\SGI_1973.shp"
 
-def renvoie_ttes_sufaces_pour_annees_en_tableau ():
+def renvoie_ttes_sufaces_pour_annees_en_tablea ():
      a = [1931,1973,2010,2016]
      Y = []
      for i in range (len(a)):
@@ -34,8 +34,8 @@ def fonction_totale (annee):
 
 
 def creation_nom_fichier (annee) :
-     a = "H:\Programmation\Info projet 5
-programme\\inventory_sgi"+str(annee)+"\\SGI_"+ str(annee) + ".shp"
+     a = "H:\Programmation\Info projet 5"
+     "programme\\inventory_sgi"+str(annee)+"\\SGI_"+ str(annee) + ".shp"
      return (a)
 
 
@@ -53,8 +53,7 @@ def surface_glaciers(nom_du_fichier):
 
 # 2) Reprojection si nécessaire
      if gdf.crs is None:
-         raise ValueError("Le shapefile n’a pas de système de coordonnées
-(.prj manquant)")
+         raise ValueError("Le shapefile n’a pas de système de coordonnées (.prj manquant)")
 
      if gdf.crs.is_geographic:
      #print("Projection en degrés détectée → reprojection en EPSG:3857")
