@@ -16,34 +16,92 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 #a= "E:\Info projet 5\inventory_sgi1973\SGI_1973.shp"
 
 def renvoie_ttes_sufaces_pour_annees_en_tablea ():
+    """
+   desciption fonction : Collecte et retourne l’ensemble des surfaces glaciaires
+   calculées pour une liste d’années prédéfinies.
+   Comment ? 1) parcourt les années disponibles, 
+    2) calcule la surface totale pour chacune, 3) renvoie un tableau des années
+    et un tableau des surfaces associées. 
+
+    Returns
+    -------
+    a : list of int 
+        liste des annees 
+    Y : list 
+        liste des surfaces des glaciers.
+
+    """
      a = [1931,1973,2010,2016]
      Y = []
      for i in range (len(a)):
          Y=Y+[fonction_totale(a[i])]
          print (Y)
      return (a,Y)
-"""desciption fonction : Collecte et retourne l’ensemble des surfaces glaciaires calculées pour une liste d’années prédéfinies.
-Comment ? 1) parcourt les années disponibles, 2) calcule la surface totale pour chacune, 3) renvoie un tableau des années et un tableau des surfaces associées."""
+
 
 
 def fonction_totale (annee):
+    """
+    description fonction : Point d’entrée du calcul de surface pour une année donnée.
+   Comment ? 1) génère le chemin du shapefile correspondant, 2) lance le calcul
+    de surface totale, 3) renvoie la valeur obtenue en km².
+
+    Parameters
+    ----------
+    annee : nb 
+     le nombre rentré par l utilisateur    
+
+    Returns
+    -------
+list des surfaces des glaciers  
+
+    """
      x = creation_nom_fichier(annee)
      print (x)
      return(surface_glaciers(x))
-""" description fonction : Point d’entrée du calcul de surface pour une année donnée.
-Comment ? 1) génère le chemin du shapefile correspondant, 2) lance le calcul de surface totale, 3) renvoie la valeur obtenue en km²."""
 
 
 
 def creation_nom_fichier (annee) :
-     a = "H:\Programmation\Info projet 5"
+    """
+    Construit dynamiquement le chemin complet vers le fichier SGI correspondant à l’année fournie.
+
+    Parameters
+    ----------
+    annee : nb
+       le nombre rentré par l utilisateur 
+
+    Returns
+    -------
+    a : list
+        liste des annees
+
+    """
      "programme\\inventory_sgi"+str(annee)+"\\SGI_"+ str(annee) + ".shp"
      return (a)
-"""Construit dynamiquement le chemin complet vers le fichier SGI correspondant à l’année fournie."""
+
 
 
 def surface_glaciers(nom_du_fichier):
+    """
+    Calcule la surface totale des glaciers à partir d’un shapefile en vérifiant
+    la projection, en calculant l’aire de chaque polygone, puis en enregistrant
+    un shapefile avec les surfaces.
+    Comment ? 1) charge le shaperfile, 2) vérifie si le CRS est géographique, 
+    3) calcule les surfaces et surface totale, 4) enregistre dans un nouveau 
+    shaperfile, 5) retourne la surface totale
 
+    Parameters
+    ----------
+    nom_du_fichier : str
+        nom du fichier shapefile du glacier 
+
+    Returns
+    -------
+    surface_totale_km2 : float 
+        surface totale des glaviers en km 
+
+    """
      path = nom_du_fichier
      gdf = gpd.read_file(path)
 
@@ -66,13 +124,20 @@ def surface_glaciers(nom_du_fichier):
 #print("Fichier sauvegardé : SGI_1973_with_area.shp")
 
      return (surface_totale_km2)
-"""description fonction : calcule la surface totale des glaciers à partir d’un shapefile en vérifiant la projection, en calculant l’aire de chaque polygone, puis en enregistrant un shapefile avec les surfaces.
-Comment ? 1) charge le shaperfile, 2) vérifie si le CRS est géographique, 3) calcule les surfaces et surface totale, 4) enregistre dans un nouveau shaperfile, 5) retourne la surface totale """ 
 
 
 
 
 def cerveau_de_l_operation2 ():
+    """
+    cription fonction : Fonction principale qui coordonne l’ensemble du processus
+    Comment ? 1) collecte des surfaces pour toutes les années, 2) génération
+    du graphique d’évolution, 3) lancement des visualisations supplémentaires
+
+    Returns
+    -------
+
+    """
 
      a,liste_surface = renvoie_ttes_sufaces_pour_annees_en_tableau ()
      # surface_annee_voulue = surface_pour_une_annee(a, liste_surface)
@@ -81,25 +146,61 @@ def cerveau_de_l_operation2 ():
      plt.show()
 
      plot_glacier_surfaces(a, liste_surface)
-""" dcription fonction : Fonction principale qui coordonne l’ensemble du processus
-Comment ? 1) collecte des surfaces pour toutes les années, 2) génération du graphique d’évolution, 3) lancement des visualisations supplémentaires."""
+
 
 
 
 
 def surface_pour_une_annee (liste_annees,liste_surface):
+    """
+   description fonction : Permet à l’utilisateur d’obtenir la surface d’une
+   année précise.
+   Comment ? Après saisie d’une année, la fonction recherche dans la liste et 
+   retourne la surface correspondante
+
+    Parameters
+    ----------
+    liste_annees : list 
+        liste des annees 
+    liste_surface : list 
+        liste des surfaces des glaciers
+
+    Returns
+    -------
+    list 
+        DESCRIPTION.
+
+    """
      a= input ('année:')
      for i in range (len(liste_annees)):
          if liste_annees[i]==int(a):
              return (liste_surface[i])
-"""description fonction : Permet à l’utilisateur d’obtenir la surface d’une année précise.
- Comment ? Après saisie d’une année, la fonction recherche dans la liste et retourne la surface correspondante."""
+"
 
 
 
 
 
 def plot_glacier_surfaces(years, surfaces):
+    """
+description fonction : Permet de créer une interface graphique Tkinter.
+Comment ? 1) définit la fonction qui affiche la surface selon l'année 
+    sélectionnée, 2) crée un graphique Matplotlib (année vs surface), 
+    3) intègre le graphique dans une interface Tkinter, 4) crée un menu 
+    déroulant pour sélectionner une année, 5) affiche la surface correspondante
+    lorsque l’utilisateur choisit une année   
+
+    Parameters
+    ----------
+    years : nb 
+      les années 
+    surfaces : nb 
+        les surfaces en km2
+
+    Returns
+    -------
+
+    """
 
      root = tk.Tk()
      root.title("Glacier Surface Over Time")
@@ -137,8 +238,6 @@ state="readonly")
 
      root.mainloop()
      
-"""description fonction : Permet de créer une interface graphique Tkinter.
-Comment ? 1) définit la fonction qui affiche la surface selon l'année sélectionnée, 2) crée un graphique Matplotlib (année vs surface), 3) intègre le graphique dans une interface Tkinter, 4) crée un menu déroulant pour sélectionner une année, 5) affiche la surface correspondante lorsque l’utilisateur choisit une année"""
     
 cerveau_de_l_operation2()
 
