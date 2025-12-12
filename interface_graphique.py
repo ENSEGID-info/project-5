@@ -187,45 +187,24 @@ def surface_pour_une_annee (liste_annees,liste_surface):
 <<<<<<< HEAD
 def interface():
      """
+     si appellee:
+     Creation d'un fenetre ou on peut choisir entre differentes glaciers 
+     pour afficher les masser et leur developpement
+
      Returns
      -------
      None.
-    
-=======
-def plot_glacier_surfaces(years, surfaces):
-    """
-description fonction : Permet de créer une interface graphique Tkinter.
-Comment ? 1) définit la fonction qui affiche la surface selon l'année 
-    sélectionnée, 2) crée un graphique Matplotlib (année vs surface), 
-    3) intègre le graphique dans une interface Tkinter, 4) crée un menu 
-    déroulant pour sélectionner une année, 5) affiche la surface correspondante
-    lorsque l’utilisateur choisit une année   
+     Interface graphique
 
-    Parameters
-    ----------
-    years : nb 
-      les années 
-    surfaces : nb 
-        les surfaces en km2
-
-    Returns
-    -------
-
-    """
->>>>>>> origin/plot
-
-     when called:
-     creates a window with the plot of the surfaces over time and  you can select
-
-     """
+     """    
     
 
           
-     # --- Create main Tkinter window ---
+     # --- Creation de fenetre d'Interface apellée root
      root = tk.Tk()
-     root.title("Masse annuelle des glacier en fonction du temps")
+     root.title("Masse annuelle des glaciers en fonction du temps")
      
-     # list of the glaciers is created here
+     # Creation de liste des glaciers
      glaciers = ["Silvrettagletscher"
      ,"Glatscher da Plattas / Glatscher da Medel"
      ,"Vorabgletscher"
@@ -262,8 +241,17 @@ Comment ? 1) définit la fonction qui affiche la surface selon l'année
    
      
 
-     # --- Function to handle the selection of the glaciers ---
-     def select_glacier(event=None):
+     def select_glacier():
+         """
+         fonction pour gerer la selection des glaciers
+
+         Returns
+         -------
+         None.
+         Menue drop-down
+
+         """
+         
          # gets the name of the glacier by selection in the interface
          selected_glacier = glacier_select.get()
          
@@ -271,37 +259,44 @@ Comment ? 1) définit la fonction qui affiche la surface selon l'année
          data = extraire_S_par_glacier("H:\massbalance_observation.csv", selected_glacier)
          years,surface = creation_liste(data,selected_glacier)
          
-         # Convert years to strings (for the dropdown)
+         # Converts years to strings (for the dropdown)
          year_strings = [str(y) for y in years]
          
 
          
-         def show_surface(event=None):
+         def show_surface():
+             """
+             fonction pour gerer la selection des des annees pour le glacier choisi
+             Returns
+             -------
+             None.
+             Menue drop-down
+
+             """
+             
              selected_year = int(year_select.get())
              index = years.index(selected_year)
              masse_value = surface[index]
              result_label.config(text=f"Masse annuelle du glacier voulu : {masse_value}")
 
-
+         # creation du graphique de glacier choisi
          fig = plot_glacier_masse(years, surface)
        
-         # --- Embed matplotlib figure into Tkinter ---
-         canvas = FigureCanvasTkAgg(fig, master=root)
-         canvas.draw()
-         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+         # integration du graphique dans l'interface
+         canvas = FigureCanvasTkAgg(fig, master=root) # Creation de objet TK inter
+         canvas.draw() # Affichage de l'objet
+         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True) 
 
-         # --- Frame for selection controls ---
-         control_frame = ttk.Frame(root)
+         control_frame = ttk.Frame(root) # mettre en page
          control_frame.pack(pady=10)
 
-         # Dropdown for year selection
+         # integration paneau de selection
          ttk.Label(control_frame, text="Select a year:").grid(row=0, column=0, padx=5)
-
          year_select = ttk.Combobox(control_frame, values=year_strings, state="readonly")
          year_select.grid(row=0, column=1, padx=5)
          year_select.bind("<<ComboboxSelected>>", show_surface)
 
-         # Label to show result
+         # affichage de resultat
          result_label = ttk.Label(control_frame, text="Mass: -")
          result_label.grid(row=1, column=0, columnspan=2, pady=5)
 
@@ -309,28 +304,21 @@ Comment ? 1) définit la fonction qui affiche la surface selon l'année
          
          
 
-     # --- Frame for selection controls ---
+     # mettre en page
      control_frame_G = ttk.Frame(root)
      control_frame_G.pack(pady=10)
    
 
-     # Dropdown for year selection
+     # affichage de selection des glaciers
      ttk.Label(control_frame_G, text="Select a Glacier:").grid(row=0, column=0, padx=5)
 
      glacier_select = ttk.Combobox(control_frame_G, values=glaciers, state="readonly")
      glacier_select .grid(row=0, column=1, padx=5)
      glacier_select .bind("<<ComboboxSelected>>", select_glacier)
      
-     
-     
-     # recup année et masse du glacier choisi
-     
-     
-     
-     
-     
+        
   
-    # --- Start the GUI event loop ---
+    # mis en oevre de l'interface graphique
      root.mainloop()    
 
    
@@ -338,7 +326,21 @@ Comment ? 1) définit la fonction qui affiche la surface selon l'année
        
        
 def plot_glacier_masse(years, surfaces):
+    """
+    
 
+    Parameters
+    ----------
+    years : TYPE
+        annees qui sont a achifage.
+    surfaces : TYPE
+        aires qui sont a afficher.
+
+    Returns
+    -------
+    la figure du plot
+
+    """
    
 
      # --- Create Matplotlib Figure ---
